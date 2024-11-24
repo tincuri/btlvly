@@ -11,21 +11,22 @@ alpha1 = sp.symbols("alpha_1")
 alpha2 = sp.symbols("alpha_2")
 g = sp.symbols("g") #Gia tốc trọng trường
 
-#Vận tốc và gia tốc ban đầu theo hai phương
+#Vận tốc ban đầu và gia tốc của hai phương
 vx0 = v0*sp.cos(alpha1)
 vy0 = v0*sp.sin(alpha1)
 ax = 0
 ay = -g
 
-#Vận tốc của phương y theo thời gian
+#Vận tốc của phương x và y theo thời gian
 vy_t = vy0 + sp.integrate(ay,t)
+vx_t = vx0 + sp.integrate(ax,t)
 
-#Tọa độ x và y theo thời gian
-x_t = vx0*t
+#Tọa độ của phương x và y theo thời gian
+x_t = sp.integrate(vx_t,t)
 y_t = sp.integrate(vy_t,t)
 
 #Tìm thời điểm chạm đất
-T = sp.solve(y_t,t)[1] #Giải y_t = 0 và tìm t lúc đó
+T = sp.solve(y_t,t)[1] #Giải y_t = 0 và tìm t lúc đó    
 
 #Quãng đường theo phương x đi được, gọi khoảng cách này là L1
 L1 = sp.simplify(x_t.subs(t,T))
@@ -45,7 +46,7 @@ a2 = float(alpha2.subs(alpha1,inp1))
 #print phương trình và kết quả:
 print(f" Phương trình của alpha_2 theo alpha_1 là: \n {alpha2}\n Kết quả số là: {a2}")
 
-#Thế các biến, T1, T2 lần lượt là thời gian chạm đất của 2 quỹ đạo
+#Thế các biến. T1, T2 lần lượt là thời gian chạm đất của 2 quỹ đạo
 T1 = float(T.subs([(g,9.81), (v0, inp2), (alpha1,inp1)]))
 T2 = float(T.subs([(g,9.81), (v0, inp2), (alpha1,a2)]))
 
@@ -54,15 +55,15 @@ y_t1 = y_t.subs([(g,9.81), (v0,inp2), (alpha1,inp1)])
 x_t1 = x_t.subs([(g,9.81), (v0,inp2), (alpha1, inp1)])
 y_t2 = y_t.subs([(g,9.81), (v0,inp2), (alpha1, a2)])
 x_t2 = x_t.subs([(g,9.81), (v0,inp2), (alpha1, a2)])
-#Chuyển các hàm sympy về các hàm có thể thế số
+#Chuyển các hàm sympy về các hàm numpy có thể thế số
 x1 = sp.lambdify(t, x_t1, 'numpy')
 y1 = sp.lambdify(t, y_t1, 'numpy')
 x2 = sp.lambdify(t,x_t2, 'numpy')
 y2 = sp.lambdify(t, y_t2, 'numpy')
 
 # Plot hai hàm
-t1 = np.linspace(0,T1,500)
-t2 = np.linspace(0,T2,500)
+t1 = np.linspace(0,T1,100)
+t2 = np.linspace(0,T2,100)
 plt.plot(x1(t1), y1(t1), label='Góc ném 1')
 plt.plot(x2(t2), y2(t2), label='Góc ném 2')
 
