@@ -10,7 +10,10 @@ v0 = sp.symbols("v_0")
 alpha1 = sp.symbols("alpha_1")
 alpha2 = sp.symbols("alpha_2")
 g = sp.symbols("g") #Gia tốc trọng trường
-
+#Giải phương trình và trả về kết quả khác một số được chọn c
+def solve(a,b,c):
+    l = sp.solve(a,b)
+    return l[0] if round(float(l[0]),2) != round(float(c),2) else l[1]
 #Vận tốc ban đầu và gia tốc của hai phương
 vx0 = v0*sp.cos(alpha1)
 vy0 = v0*sp.sin(alpha1)
@@ -26,7 +29,7 @@ x_t = sp.integrate(vx_t,t)
 y_t = sp.integrate(vy_t,t)
 
 #Tìm thời điểm chạm đất
-T = sp.solve(y_t,t)[1] #Giải y_t = 0 và tìm t lúc đó    
+T = solve(y_t,t,0) #Giải y_t = 0 và tìm t lúc đó    
 
 #Quãng đường theo phương x đi được, gọi khoảng cách này là L1
 L1 = sp.simplify(x_t.subs(t,T))
@@ -34,26 +37,23 @@ L1 = sp.simplify(x_t.subs(t,T))
 L2 = L1.subs(alpha1,alpha2)
 
 #Đặt L1 = L2 và tìm alpha2 theo alpha1
-alpha2eq = sp.solve(L1-L2,alpha2)[0] if sp.solve(L1-L2,alpha2)[0] != alpha2 else  sp.solve(L1-L2,alpha2)[0]#Giải L1 - L2 = 0 và tìm alpha2
+alpha2eq = sp.solve(L1-L2,alpha2)[0]
+#Giải L1 - L2 = 0 và tìm biểu thức alpha2 theo alpha1
 
 #input
 while True:
     inp1 = float(input("Nhập alpha1: "))
-    if inp1>np.pi or inp1<0:
-        print("Góc không hợp lệ, vui lòng nhập lại.")
-    break
+    if not inp1>np.pi or inp1<0:#Bắt trường hợp lỗi
+        break
+    print("Góc không hợp lệ, vui lòng nhập lại.")
 inp2 = float(input("Nhập v0: "))
 
 #Tính giá trị của alpha2
-if inp1<np.pi/2:
-    L1num=L1.subs(alpha1,inp1)    
-    a2 = sp.solve(L1num-L2,alpha2)[1]
-else:
-    L1num=L1.subs(alpha1,np.pi - inp1)
-    a2 = np.pi-sp.solve(L1num-L2,alpha2)[0]
+L1num=L1.subs(alpha1,inp1)    
+a2 = solve(L1num-L2,alpha2,inp1) if inp1 < np.pi/2 else np.pi+solve(L1num-L2,alpha2,inp1)#Bắt trường hợp góc lớn hơn pi/2
 
 #print phương trình và kết quả:
-print(f" Phương trình của alpha_2 theo alpha_1 là: \n {alpha2}\n Kết quả số là: {a2}")
+print(f" Phương trình của alpha_2 theo alpha_1 là: \n {alpha2eq}\n Kết quả số là: {a2}")
 
 #Thế các biến. T1, T2 lần lượt là thời gian chạm đất của 2 quỹ đạo
 T1 = float(T.subs([(g,9.81), (v0, inp2), (alpha1,inp1)]))
