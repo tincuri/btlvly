@@ -34,14 +34,23 @@ L1 = sp.simplify(x_t.subs(t,T))
 L2 = L1.subs(alpha1,alpha2)
 
 #Đặt L1 = L2 và tìm alpha2 theo alpha1
-alpha2 = sp.solve(L1-L2,alpha2)[0] #Giải L1 - L2 = 0 và tìm alpha2
+alpha2eq = sp.solve(L1-L2,alpha2)[0] if sp.solve(L1-L2,alpha2)[0] != alpha2 else  sp.solve(L1-L2,alpha2)[0]#Giải L1 - L2 = 0 và tìm alpha2
 
 #input
-inp1 = float(input("Nhập alpha1: "))
+while True:
+    inp1 = float(input("Nhập alpha1: "))
+    if inp1>np.pi or inp1<0:
+        print("Góc không hợp lệ, vui lòng nhập lại.")
+    break
 inp2 = float(input("Nhập v0: "))
 
 #Tính giá trị của alpha2
-a2 = float(alpha2.subs(alpha1,inp1))
+if inp1<np.pi/2:
+    L1num=L1.subs(alpha1,inp1)    
+    a2 = sp.solve(L1num-L2,alpha2)[1]
+else:
+    L1num=L1.subs(alpha1,np.pi - inp1)
+    a2 = np.pi-sp.solve(L1num-L2,alpha2)[0]
 
 #print phương trình và kết quả:
 print(f" Phương trình của alpha_2 theo alpha_1 là: \n {alpha2}\n Kết quả số là: {a2}")
