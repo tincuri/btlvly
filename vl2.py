@@ -36,7 +36,7 @@ alpha2eq = sp.solve(L1-L2, alpha2)
 #Nhập input
 while True:
     alpha1_input = float(input("Nhập alpha1: "))
-    if not 0 > alpha1_input > np.pi:#Bắt trường hợp lỗi
+    if 0 < alpha1_input < 180:#Bắt trường hợp lỗi
         break
     print("Góc không hợp lệ, vui lòng nhập lại.")
 #Đổi từ độ sang rad
