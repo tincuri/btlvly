@@ -42,13 +42,15 @@ while True:
 v0_input = float(input("Nhập v0: "))
 
 #Tính giá trị của alpha2
-#Thế số tìm giá trị của L1
-L1num=L1.subs(alpha1, alpha1_input)
-a2 = (solve(L1num - L2, alpha2, alpha1_input) if alpha1_input < np.pi/2
-      else np.pi+solve(L1num - L2, alpha2, alpha1_input))#Bắt trường hợp góc lớn hơn pi/2
+if alpha1_input < np.pi/2:
+    L1num=L1.subs(alpha1, alpha1_input)    
+    a2 = solve(L1num - L2, alpha2, alpha1_input)
+else: #Bắt trường hợp alpha1 > pi/2
+    L1num=L1.subs(alpha1, np.pi - alpha1_input)
+    a2 = np.pi - solve(L1num - L2, alpha2, np.pi - alpha1_input)
 
 #print phương trình và kết quả:
-print(f" Phương trình của alpha_2 theo alpha_1 là: \n {alpha2eq[0]} khi alpha1 < pi/4 và {alpha2eq[1]} khi alpha1 > pi/4 \n Kết quả số là: {a2}")
+print(f" Phương trình của alpha_2 theo alpha_1 là: \n {alpha2eq[0]} khi alpha1 < pi/4 \nvà {alpha2eq[1]} khi alpha1 > pi/4 \n\n Kết quả số là: {a2}")
 
 #Thế các biến. T1, T2 lần lượt là thời gian chạm đất của 2 quỹ đạo
 T1 = float(T.subs([(g, 9.81), (v0, v0_input), (alpha1, alpha1_input)]))
