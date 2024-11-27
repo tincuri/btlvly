@@ -36,25 +36,24 @@ alpha2eq = sp.solve(L1-L2, alpha2)
 #Nhập input
 while True:
     alpha1_input = float(input("Nhập alpha1: "))
-    if 0 < alpha1_input < 180:#Bắt trường hợp lỗi
+    if 0 < alpha1_input < np.pi:#Bắt trường hợp lỗi
         break
     print("Góc không hợp lệ, vui lòng nhập lại.")
 #Đổi từ độ sang rad
-alpha1_input = alpha1_input*np.pi/(180)
 v0_input = float(input("Nhập v0: "))
 
 #Tính giá trị của alpha2
 if alpha1_input < np.pi/2:
     L1num=L1.subs(alpha1, alpha1_input)    
     a2 = solve(L1num - L2, alpha2, alpha1_input)
-elif alpha1_input*180/np.pi == 90 : #Bắt trường hợp 90
+elif alpha1_input == np.pi/2 : #Bắt trường hợp pi/2
     a2 = alpha1_input
-else: #Bắt trường hợp alpha1 > 90
+else: #Bắt trường hợp alpha1 > pi/2
     L1num=L1.subs(alpha1, np.pi - alpha1_input)
     a2 = np.pi - solve(L1num - L2, alpha2, np.pi - alpha1_input)
 
 #print phương trình và kết quả:
-print(f" Phương trình của alpha_2 theo alpha_1 là: \n {alpha2eq[0]} khi alpha1 < 45 \nvà {alpha2eq[1]} khi alpha1 > 45 \n\n Kết quả số là: {a2*180/np.pi}")
+print(f" Phương trình của alpha_2 theo alpha_1 là: \n {alpha2eq[0]} khi alpha1 < 45 \nvà {alpha2eq[1]} khi alpha1 > 45 \n\n Kết quả số là: {a2}")
 
 #Thế các biến. T1, T2 lần lượt là thời gian chạm đất của 2 quỹ đạo
 T1 = float(T.subs([(g, 9.81), (v0, v0_input), (alpha1, alpha1_input)]))
