@@ -54,7 +54,7 @@ else: #Bắt trường hợp alpha1 > 90
     a2 = np.pi - solve(L1num - L2, alpha2, np.pi - alpha1_input)
 
 #print phương trình và kết quả:
-print(f" Phương trình của alpha_2 theo alpha_1 là: \n {alpha2eq[0]} khi alpha1 < pi/4 \nvà {alpha2eq[1]} khi alpha1 > pi/4 \n\n Kết quả số là: {a2*180/np.pi}")
+print(f" Phương trình của alpha_2 theo alpha_1 là: \n {alpha2eq[0]} khi alpha1 < 45 \nvà {alpha2eq[1]} khi alpha1 > 45 \n\n Kết quả số là: {a2*180/np.pi}")
 
 #Thế các biến. T1, T2 lần lượt là thời gian chạm đất của 2 quỹ đạo
 T1 = float(T.subs([(g, 9.81), (v0, v0_input), (alpha1, alpha1_input)]))
