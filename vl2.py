@@ -32,7 +32,6 @@ L2 = L1.subs(alpha1, alpha2)
 
 #Đặt L1 = L2 và tìm alpha2 theo alpha1
 alpha2eq = sp.solve(L1-L2, alpha2)
-#Giải L1 - L2 = 0 và tìm biểu thức alpha2 theo alpha1
 
 #Nhập input
 while True:
