@@ -2,6 +2,7 @@
 import numpy as np
 import sympy as sp
 import matplotlib.pyplot as plt
+
 #Khai biến
 x, y, t, v0, alpha1, alpha2, g = sp.symbols("x y t v_0 alpha_1 alpha_2 g")
 
@@ -23,7 +24,7 @@ x_t = sp.integrate(vx_t,t)
 y_t = sp.integrate(vy_t,t)
 
 #Tìm thời điểm chạm đất
-T = solve(y_t, t, 0) #Giải y_t = 0 và tìm t lúc đó    
+T = solve(y_t, t, 0) #Giải y_t = 0 và tìm thời gian lúc đó    
 
 #Quãng đường theo phương x đi được, gọi khoảng cách này là L1
 L1 = sp.simplify(x_t.subs(t, T))
